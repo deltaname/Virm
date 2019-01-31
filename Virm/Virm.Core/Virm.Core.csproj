@@ -41,16 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\VirmCommandNum.cs" />
-    <Compile Include="Commands\VirmCommandString.cs" />
-    <Compile Include="Entities\VirmString.cs" />
-    <Compile Include="Interfaces\IVirmCommand.cs" />
-    <Compile Include="Interpreter\VirmIntpNode.cs" />
-    <Compile Include="Entities\VirmNum.cs" />
-    <Compile Include="Interfaces\IVirmStack.cs" />
-    <Compile Include="Interpreter\VirmInterpreter.cs" />
-    <Compile Include="Interfaces\IVirmInterpreter.cs" />
-    <Compile Include="Interfaces\IVirmUnit.cs" />
+    <Compile Include="LangStructures\Exceptions\VirmArgumentException.cs" />
+    <Compile Include="LangStructures\Exceptions\VirmCreationException.cs" />
+    <Compile Include="LangStructures\Exceptions\VirmException.cs" />
+    <Compile Include="LangStructures\Interfaces\IVirmObject.cs" />
+    <Compile Include="LangStructures\VirmClass.cs" />
+    <Compile Include="LangStructures\VirmMethod.cs" />
+    <Compile Include="LangStructures\VirmNull.cs" />
+    <Compile Include="LangStructures\VirmNum.cs" />
+    <Compile Include="LangStructures\VirmString.cs" />
+    <Compile Include="LangStructures\VirmVariable.cs" />
+    <Compile Include="LangStructures\VirmVoid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VirmMachine.cs" />
   </ItemGroup>
