@@ -24,14 +24,24 @@ namespace Virm.Core.LangStructures
                 throw new VirmCreationException(message);
             }
 
-            if (!(obj is Delegate))
+            if (!(obj is Delegate) && !(obj is MethodInfo))
             {
-                string message = "Object creation exception: the parameter must be delegate";
+                string message = "Object creation exception: the parameter must be delegate or method info";
                 throw new VirmCreationException(message);
             }
-
+            
             Data = obj;
-            info = ((Delegate)Data).Method;
+
+            if (obj is Delegate)
+            {
+                Data = obj;
+                info = ((Delegate)Data).Method;
+            }
+            if (obj is MethodInfo)
+            {
+                Data = Delegate.CreateDelegate(typeof(Func<object[], object[]>), (MethodInfo)obj);
+                info = (MethodInfo)obj;
+            }
             return this;
         }
 

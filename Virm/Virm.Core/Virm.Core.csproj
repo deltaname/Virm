@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Environment\VirmReflection.cs" />
+    <Compile Include="Extensions\VirmCommandAttribute.cs" />
     <Compile Include="LangStructures\Exceptions\VirmArgumentException.cs" />
     <Compile Include="LangStructures\Exceptions\VirmCreationException.cs" />
     <Compile Include="LangStructures\Exceptions\VirmException.cs" />
