@@ -8,7 +8,7 @@ namespace Virm.Core.LangStructures.Exceptions
 {
     public class VirmCreationException : VirmException
     {
-        public VirmCreationException(string message) : base(message)
+        public VirmCreationException(string message) : base($"[Virm] Creation exception: {message}")
         {
 
         }

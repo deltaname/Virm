@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
+using Virm.Core.Environment;
+using Virm.Core.Extensions;
 using Virm.Core.LangStructures.Exceptions;
 using Virm.Core.LangStructures.Interfaces;
 
 namespace Virm.Core.LangStructures
 {
-    public class VirmMethod : IVirmObject
+    internal class VirmMethod : IVirmObject
     {
         public VirmMethod(string name)
         {
@@ -18,67 +21,42 @@ namespace Virm.Core.LangStructures
 
         public IVirmObject Create(object obj)
         {
-            if (obj == null)
-            {
-                string message = "Object creation exception: the parameter can't be null";
-                throw new VirmCreationException(message);
-            }
+            VirmMethodBuilder builder = new VirmMethodBuilder();
+            data = builder.Create(obj);
 
-            if (!(obj is Delegate) && !(obj is MethodInfo))
-            {
-                string message = "Object creation exception: the parameter must be delegate or method info";
-                throw new VirmCreationException(message);
-            }
-            
-            Data = obj;
-
-            if (obj is Delegate)
-            {
-                Data = obj;
-                info = ((Delegate)Data).Method;
-            }
-            if (obj is MethodInfo)
-            {
-                Data = Delegate.CreateDelegate(typeof(Func<object[], object[]>), (MethodInfo)obj);
-                info = (MethodInfo)obj;
-            }
             return this;
         }
 
-        public object GetReturnType()
+        internal VirmMethodType GetMethodType()
         {
-            return info.ReturnType;
-        }
-        
-        public object GetParamCount()
-        {
-            return info.GetParameters().Length;
+            return data.MethodType;
         }
 
-        public object Execute()
+        public void ExecuteAction()
         {
-            if (info.GetParameters().Length > 0)
-            {
-                string message = $"Method call exception caused by {info.Name}: wrong parameters count";
-                throw new VirmArgumentException(message);
-            }
-
-            Delegate method = (Delegate)Data;
-            return method.DynamicInvoke(null);
+            Action action = (Action)data.Method;
+            action.Invoke();
         }
 
-        public object Execute(object[] param)
+        public void ExecuteAction(VirmContainer args)
         {
-            if (info.GetParameters().Length != param.Length)
-            {
-                string message = $"Method call exception caused by {info.Name}: wrong parameters count";
-                throw new VirmArgumentException(message);
-            }
-
-            Delegate method = (Delegate)Data;
-            return method.DynamicInvoke(param);
+            Action<VirmContainer> action = (Action<VirmContainer>)data.Method;
+            action.Invoke(args);
         }
 
-        private MethodInfo info;
+        public VirmContainer ExecuteFunc()
+        {
+            Func<VirmContainer> func = (Func<VirmContainer>)data.Method;
+            return func.Invoke();
+        }
+
+        public VirmContainer ExecuteFunc(VirmContainer args)
+        {
+            Func<VirmContainer, VirmContainer> func = (Func<VirmContainer, VirmContainer>) data.Method;
+            return func.Invoke(args);
+        }
+
+        private VirmMethodWrapper data;
+
     }
 }

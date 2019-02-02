@@ -12,10 +12,9 @@ namespace Virm.Core.Environment
         public VirmMethod[] GetCommandsFromReflection()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-
-            List<MethodInfo> reflectionMethods = new List<MethodInfo>();
             List<VirmMethod> virmCommands = new List<VirmMethod>();
 
+            List<MethodInfo> reflectionMethods = new List<MethodInfo>();
             foreach (var assembly in assemblies)
             {
                 MethodInfo[] methods = GetMethodsWithCommandAttribute(assembly);

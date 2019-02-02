@@ -41,19 +41,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Environment\VirmContainerEntity.cs" />
+    <Compile Include="Environment\VirmInterpreter.cs" />
     <Compile Include="Environment\VirmReflection.cs" />
+    <Compile Include="Execution\VirmExecContainer.cs" />
+    <Compile Include="Execution\VirmExecMethod.cs" />
+    <Compile Include="Execution\VirmExecNode.cs" />
+    <Compile Include="Extensions\VirmArgumentAttribute.cs" />
     <Compile Include="Extensions\VirmCommandAttribute.cs" />
+    <Compile Include="LangStructures\Exceptions\VirmExecutionException.cs" />
+    <Compile Include="Extensions\VirmReturnAttribute.cs" />
+    <Compile Include="LangStructures\BasicTypes.cs" />
     <Compile Include="LangStructures\Exceptions\VirmArgumentException.cs" />
     <Compile Include="LangStructures\Exceptions\VirmCreationException.cs" />
     <Compile Include="LangStructures\Exceptions\VirmException.cs" />
     <Compile Include="LangStructures\Interfaces\IVirmObject.cs" />
     <Compile Include="LangStructures\VirmClass.cs" />
+    <Compile Include="Environment\VirmContainer.cs" />
     <Compile Include="LangStructures\VirmMethod.cs" />
+    <Compile Include="LangStructures\VirmMethodBuilder.cs" />
+    <Compile Include="LangStructures\VirmMethodWrapper.cs" />
     <Compile Include="LangStructures\VirmNull.cs" />
-    <Compile Include="LangStructures\VirmNum.cs" />
-    <Compile Include="LangStructures\VirmString.cs" />
     <Compile Include="LangStructures\VirmVariable.cs" />
-    <Compile Include="LangStructures\VirmVoid.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VirmMachine.cs" />
   </ItemGroup>
