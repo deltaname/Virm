@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Virm.Core.LangStructures.Exceptions
 {
-    public class VirmArgumentException : VirmException
+    public class VirmExecutionException : VirmException
     {
-        public VirmArgumentException(string message) : base($"[Virm] Argument exception: {message}") 
+        public VirmExecutionException(string message) : base($"[Virm] Execution exception: {message}")
         {
-
+            
         }
     }
 }

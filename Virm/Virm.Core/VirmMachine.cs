@@ -1,53 +1,60 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Virm.Core.Environment;
+using Virm.Core.Execution;
 using Virm.Core.LangStructures;
+using Virm.Core.LangStructures.Exceptions;
 
 namespace Virm.Core
 {
     public class VirmMachine
     {
-        public List<VirmMethod> commands = new List<VirmMethod>();
+        private VirmInterpreter interpreter;
+        private Stack<VirmContainer> stack;
 
         public VirmMachine()
         {
-            VirmReflection refl = new VirmReflection();
-            commands.AddRange(refl.GetCommandsFromReflection());
+            interpreter = new VirmInterpreter();
+            stack = new Stack<VirmContainer>();
         }
 
         public void Execute(string code)
         {
-            StringBuilder builder = new StringBuilder();
+            var exec = interpreter.InterpretCode(code)[0];
 
-            int index = 0;
-
-            while(index < code.Length && code[index] != ' ')
+            while (exec.Next != null)
             {
-                builder.Append(code[index]);
-                index++;
+                exec = exec.Next;
             }
 
-            string command = builder.ToString();
-            index++;
+            stack.Push((exec as VirmExecContainer).Container);
 
-            builder.Clear();
-
-            while(index < code.Length)
+            while(exec.Prev != null)
             {
-                builder.Append(code[index]);
-                index++;
+                VirmMethod command = (exec.Prev as VirmExecMethod).Method;
+
+                switch (command.GetMethodType())
+                {
+                    case VirmMethodType.ArgAction:
+                        if (stack.Count == 0)
+                            throw new VirmExecutionException("Stack is empty");
+                        command.ExecuteAction(stack.Pop());
+                        break;
+                    case VirmMethodType.ArgFunction:
+                        if (stack.Count == 0)
+                            throw new VirmExecutionException("Stack is empty");
+                        stack.Push(command.ExecuteFunc(stack.Pop()));
+                        break;
+                    case VirmMethodType.NoArgAction:
+                        command.ExecuteAction();
+                        break;
+                    case VirmMethodType.NoArgFunction:
+                        stack.Push(command.ExecuteFunc());
+                        break;
+                }
+
+                exec = exec.Prev;
             }
 
-            string args = builder.ToString();
-
-            var codeParts = code.Split(null);
-            var commandName = codeParts[0];
-
-            var commandInstance = commands.First(x => x.Name == commandName);
-            commandInstance.Execute(new object[] { new object[] { args } });
-
-            //TODO: FIX WRONG ARGUMENT CALL
         }
     }
 }

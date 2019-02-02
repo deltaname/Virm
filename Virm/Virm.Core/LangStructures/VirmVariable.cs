@@ -4,9 +4,8 @@ namespace Virm.Core.LangStructures
 {
     public class VirmVariable
     {
-
         public string Name { get; private set; }
-        public IVirmObject Value { get; set; }
+        public object Value { get; set; }
 
         public VirmVariable(string name)
         {
@@ -19,7 +18,7 @@ namespace Virm.Core.LangStructures
             Value = value;
         }
 
-        public IVirmObject Get()
+        public object Get()
         {
             return Value;
         }
